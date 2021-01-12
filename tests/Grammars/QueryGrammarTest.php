@@ -5,7 +5,6 @@ namespace Boyfoo\ElasticsearchSql\Tests\Grammars;
 use Boyfoo\ElasticsearchSql\Query\Build;
 use Boyfoo\ElasticsearchSql\Grammars\BoolGrammar;
 use Boyfoo\ElasticsearchSql\Support\Es;
-use Boyfoo\ElasticsearchSql\Support\Row;
 use PHPUnit\Framework\TestCase;
 
 class QueryGrammarTest extends TestCase
