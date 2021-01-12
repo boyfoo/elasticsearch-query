@@ -4,7 +4,7 @@
 namespace Boyfoo\ElasticsearchSql\Query;
 
 
-class Expression
+class Row
 {
     protected $value;
 

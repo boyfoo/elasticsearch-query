@@ -6,7 +6,6 @@ namespace Boyfoo\ElasticsearchSql\Query;
 use Boyfoo\ElasticsearchSql\Grammars\BoolGrammar;
 use Boyfoo\ElasticsearchSql\Query\Traits\MustNotTrait;
 use Boyfoo\ElasticsearchSql\Query\Traits\ShouldTrait;
-use Boyfoo\ElasticsearchSql\Support\Resolve;
 use Closure;
 
 
@@ -50,7 +49,7 @@ class Build
 
     /**
      * match 查询
-     * @param string|Expression $column
+     * @param string|Row $column
      * @param $value
      * @param string $operator
      * @param string $boolean
@@ -63,7 +62,7 @@ class Build
 
     /**
      * term语句必须值相等
-     * @param string|Expression $column
+     * @param string|Row $column
      * @param $value
      * @param string $operator
      * @param string $boolean
@@ -76,7 +75,7 @@ class Build
 
     /**
      * 值必须在$value数组内
-     * @param string|Expression $column
+     * @param string|Row $column
      * @param array $value
      * @param string $operator
      * @param string $boolean
@@ -91,7 +90,7 @@ class Build
 
     /**
      * 必须在$value范围内
-     * @param string|Expression $column
+     * @param string|Row $column
      * @param array $value [">=" => $value1, "<" => $value2]
      * @param string $operator
      * @param string $boolean
@@ -111,7 +110,7 @@ class Build
 
     /**
      * 必须同时满足多个条件 此多个条件为一个must条件
-     * @param Build|Closure|Expression $build
+     * @param Build|Closure|Row $build
      * @param string $operator
      * @param string $boolean
      * @return $this

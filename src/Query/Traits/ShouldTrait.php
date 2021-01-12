@@ -4,12 +4,12 @@
 namespace Boyfoo\ElasticsearchSql\Query\Traits;
 
 use Boyfoo\ElasticsearchSql\Query\Build;
-use Boyfoo\ElasticsearchSql\Query\Expression;
+use Boyfoo\ElasticsearchSql\Query\Row;
 
 trait ShouldTrait
 {
     /**
-     * @param string|Expression $column
+     * @param string|Row $column
      * @param $value
      * @return $this
      */
@@ -19,7 +19,7 @@ trait ShouldTrait
     }
 
     /**
-     * @param string|Expression $column
+     * @param string|Row $column
      * @param $value
      * @return $this
      */
@@ -29,7 +29,7 @@ trait ShouldTrait
     }
 
     /**
-     * @param string|Expression $column
+     * @param string|Row $column
      * @param array $value
      * @return $this
      */
@@ -39,7 +39,7 @@ trait ShouldTrait
     }
 
     /**
-     * @param string|Expression $column
+     * @param string|Row $column
      * @param array $value
      * @return $this
      */
@@ -49,7 +49,7 @@ trait ShouldTrait
     }
 
     /**
-     * @param Build|Closure|Expression $build
+     * @param Build|Closure|Row $build
      * @return $this
      */
     public function shouldBool($build)

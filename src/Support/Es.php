@@ -4,16 +4,16 @@
 namespace Boyfoo\ElasticsearchSql\Support;
 
 
-use Boyfoo\ElasticsearchSql\Query\Expression;
+use Boyfoo\ElasticsearchSql\Query\Row;
 
 class Es
 {
     /**
      * @param $value
-     * @return Expression
+     * @return Row
      */
     public static function row(array $value)
     {
-        return new Expression($value);
+        return new Row($value);
     }
 }

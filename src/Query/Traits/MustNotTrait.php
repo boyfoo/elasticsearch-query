@@ -4,12 +4,12 @@
 namespace Boyfoo\ElasticsearchSql\Query\Traits;
 
 use Boyfoo\ElasticsearchSql\Query\Build;
-use Boyfoo\ElasticsearchSql\Query\Expression;
+use Boyfoo\ElasticsearchSql\Query\Row;
 
 trait MustNotTrait
 {
     /**
-     * @param string|Expression $column
+     * @param string|Row $column
      * @param $value
      * @return $this
      */
@@ -20,7 +20,7 @@ trait MustNotTrait
 
     /**
      * 必须不等于该值
-     * @param string|Expression $column
+     * @param string|Row $column
      * @param $value
      * @return $this
      */
@@ -31,7 +31,7 @@ trait MustNotTrait
 
     /**
      * 必须不在$value数组值内
-     * @param string|Expression $column
+     * @param string|Row $column
      * @param array $value
      * @return $this
      */
@@ -42,7 +42,7 @@ trait MustNotTrait
 
     /**
      * 必须不在$value范围内
-     * @param string|Expression $column
+     * @param string|Row $column
      * @param array $value
      * @return $this
      */
@@ -53,7 +53,7 @@ trait MustNotTrait
 
     /**
      * 必须同时满足所有条件 所有条件为一个must_not条件
-     * @param Build|Closure|Expression $build
+     * @param Build|Closure|Row $build
      * @return $this
      */
     public function notBool($build)

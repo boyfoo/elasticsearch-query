@@ -5,7 +5,7 @@ namespace Boyfoo\ElasticsearchSql\Grammars;
 
 
 use Boyfoo\ElasticsearchSql\Query\Build;
-use Boyfoo\ElasticsearchSql\Query\Expression;
+use Boyfoo\ElasticsearchSql\Query\Row;
 use Boyfoo\ElasticsearchSql\Search;
 use Boyfoo\ElasticsearchSql\Support\Resolve;
 use Closure;
@@ -59,7 +59,7 @@ class SearchGrammar
                 $build = Resolve::closureToQuery($build);
             }
 
-            if ($build instanceof Expression) {
+            if ($build instanceof Row) {
                 $body['query'] = $build->getValue();
             } elseif ($build instanceof Build) {
                 $body['query'] = $build->toArray();

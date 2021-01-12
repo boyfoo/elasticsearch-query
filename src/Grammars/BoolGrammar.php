@@ -4,7 +4,7 @@ namespace Boyfoo\ElasticsearchSql\Grammars;
 
 
 use Boyfoo\ElasticsearchSql\Query\Build;
-use Boyfoo\ElasticsearchSql\Query\Expression;
+use Boyfoo\ElasticsearchSql\Query\Row;
 use Boyfoo\ElasticsearchSql\Support\Resolve;
 use Closure;
 
@@ -39,7 +39,7 @@ class BoolGrammar
     public function toArray()
     {
         foreach ($this->query->getWheres() as $where) {
-            if ($where['column'] instanceof Expression) {
+            if ($where['column'] instanceof Row) {
                 $this->expression($where);
             } else {
                 $this->{$where['type']}($where);
@@ -64,10 +64,10 @@ class BoolGrammar
 
     /**
      * 获取原始表达式内容值
-     * @param Expression $expression
+     * @param Row $expression
      * @return mixed
      */
-    protected function getExpressionValue(Expression $expression)
+    protected function getExpressionValue(Row $expression)
     {
         return $expression->getValue();
     }

@@ -6,7 +6,7 @@ namespace Boyfoo\ElasticsearchSql;
 
 use Boyfoo\ElasticsearchSql\Query\Build;
 use Boyfoo\ElasticsearchSql\Grammars\SearchGrammar;
-use Boyfoo\ElasticsearchSql\Query\Expression;
+use Boyfoo\ElasticsearchSql\Query\Row;
 use Boyfoo\ElasticsearchSql\Support\Resolve;
 use Closure;
 
@@ -53,7 +53,7 @@ class Search
     /**
      * 构建查询内query
      * 传入Build实体或闭包或Expression表达式
-     * @param Build|Closure|Expression $build
+     * @param Build|Closure|Row $build
      * @return $this
      */
     public function query($build)
@@ -181,7 +181,7 @@ class Search
 
     /**
      * 获当前查询构建的query
-     * @return Build|Closure|Expression|null
+     * @return Build|Closure|Row|null
      */
     public function getQuery()
     {
