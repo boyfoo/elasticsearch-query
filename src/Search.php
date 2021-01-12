@@ -27,7 +27,8 @@ class Search
     protected $size;
 
     /**
-     * @param $index
+     * 设置文档索引
+     * @param string $index
      * @return $this
      */
     public function index($index)
@@ -38,7 +39,8 @@ class Search
     }
 
     /**
-     * @param $type
+     * 设置文档类型
+     * @param string $type
      * @return $this
      */
     public function type($type)
@@ -49,18 +51,21 @@ class Search
     }
 
     /**
+     * 构建查询内query
+     * 传入Build实体或闭包或Expression表达式
      * @param Build|Closure|Expression $build
      * @return $this
      */
     public function query($build)
     {
-        $this->query[] = $build;
+        $this->query = $build;
 
         return $this;
     }
 
     /**
-     * @param $value
+     * 设置from内容
+     * @param int $value
      * @return $this
      */
     public function from($value)
@@ -71,7 +76,8 @@ class Search
     }
 
     /**
-     * @param $value
+     * 设置size内容
+     * @param int $value
      * @return $this
      */
     public function size($value)
@@ -82,6 +88,7 @@ class Search
     }
 
     /**
+     * 设置搜索字段
      * @param $source
      * @return $this
      */
@@ -97,8 +104,9 @@ class Search
     }
 
     /**
-     * @param $column
-     * @param string|array $value desc
+     * 设置排序字段
+     * @param string $column 字段
+     * @param string $value desc
      * @return $this
      */
     public function sortBy($column, $value = 'asc')
@@ -117,7 +125,8 @@ class Search
     }
 
     /**
-     * @param $column
+     * 设置排序字段倒叙
+     * @param string $column
      * @return $this
      */
     public function sortByDesc($column)
@@ -125,47 +134,80 @@ class Search
         return $this->sortBy($column, 'desc');
     }
 
+    /**
+     * 获取当前查询文档索引
+     * @return string|null
+     */
     public function getIndex()
     {
         return $this->index;
     }
 
+    /**
+     * 获取当前查询文档类型
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
     }
 
+    /**
+     * 获取当前查询from值
+     * @return int|null
+     */
     public function getFrom()
     {
         return $this->from;
     }
 
+    /**
+     * 获取当前查询size值
+     * @return int|null
+     */
     public function getSize()
     {
         return $this->size;
     }
 
+    /**
+     * 获取当前查询字段
+     * @return array|null
+     */
     public function getSource()
     {
         return $this->source;
     }
 
+    /**
+     * 获当前查询构建的query
+     * @return Build|Closure|Expression|null
+     */
     public function getQuery()
     {
         return $this->query;
     }
 
+    /**
+     * 获取当前查询排序
+     * @return array|null
+     */
     public function getSort()
     {
         return $this->sort;
     }
 
+    /**
+     * 打印查询语句构建结果
+     * @return array
+     */
     public function toArray()
     {
         return (new SearchGrammar($this))->toArray();
     }
 
     /**
+     * 创建查询实例
      * @return static
      */
     public static function create()

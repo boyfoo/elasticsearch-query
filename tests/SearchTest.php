@@ -2,9 +2,6 @@
 
 namespace Boyfoo\ElasticsearchSql\Tests;
 
-use Boyfoo\ElasticsearchSql\Query\Build;
-use Boyfoo\ElasticsearchSql\Search;
-use Elasticsearch\ClientBuilder;
 use PHPUnit\Framework\TestCase;
 
 class SearchTest extends TestCase

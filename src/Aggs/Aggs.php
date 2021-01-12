@@ -17,6 +17,7 @@ class Aggs
     }
 
     /**
+     * 构建当前类实例
      * @return static
      */
     public static function create()

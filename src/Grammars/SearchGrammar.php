@@ -10,6 +10,11 @@ use Boyfoo\ElasticsearchSql\Search;
 use Boyfoo\ElasticsearchSql\Support\Resolve;
 use Closure;
 
+/**
+ * 查询主体解析器
+ * Class SearchGrammar
+ * @package Boyfoo\ElasticsearchSql\Grammars
+ */
 class SearchGrammar
 {
     protected $search;
@@ -19,6 +24,9 @@ class SearchGrammar
         $this->search = $search;
     }
 
+    /**
+     * @return array
+     */
     public function toArray()
     {
         $sql = [
@@ -44,19 +52,17 @@ class SearchGrammar
             $body['sort'] = $this->search->getSort();
         }
 
-        if (!is_null($this->search->getQuery()) && is_array($this->search->getQuery())) {
+        if (!is_null($this->search->getQuery())) {
+            $build = $this->search->getQuery();
 
-            foreach ($this->search->getQuery() as $build) {
+            if ($build instanceof Closure) {
+                $build = Resolve::closureToQuery($build);
+            }
 
-                if ($build instanceof Closure) {
-                    $build = Resolve::closureToQuery($build);
-                }
-
-                if ($build instanceof Expression) {
-                    $body['query'] = $build->getValue();
-                } elseif ($build instanceof Build) {
-                    $body['query'] = $build->toArray();
-                }
+            if ($build instanceof Expression) {
+                $body['query'] = $build->getValue();
+            } elseif ($build instanceof Build) {
+                $body['query'] = $build->toArray();
             }
         }
 

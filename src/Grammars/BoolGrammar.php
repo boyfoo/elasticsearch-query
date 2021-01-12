@@ -8,9 +8,15 @@ use Boyfoo\ElasticsearchSql\Query\Expression;
 use Boyfoo\ElasticsearchSql\Support\Resolve;
 use Closure;
 
+/**
+ * query查询语句解析器
+ * 解析结果为bool
+ * Class BoolGrammar
+ * @package Boyfoo\ElasticsearchSql\Grammars
+ */
 class BoolGrammar
 {
-    protected $search;
+    protected $query;
 
     protected $sql = [
         'must' => [],
@@ -20,10 +26,11 @@ class BoolGrammar
 
     public function __construct(Build $search)
     {
-        $this->search = $search;
+        $this->query = $search;
     }
 
     /**
+     * 返回数据类型的构建结果
      * @return array
      * [
      *  'bool' => []
@@ -31,7 +38,7 @@ class BoolGrammar
      */
     public function toArray()
     {
-        foreach ($this->search->getWheres() as $where) {
+        foreach ($this->query->getWheres() as $where) {
             if ($where['column'] instanceof Expression) {
                 $this->expression($where);
             } else {
@@ -44,6 +51,10 @@ class BoolGrammar
         })];
     }
 
+    /**
+     * 原始表达式构建
+     * @param array $where
+     */
     protected function expression($where)
     {
         $this->sql[$this->partition($where)][] = [
@@ -51,11 +62,20 @@ class BoolGrammar
         ];
     }
 
+    /**
+     * 获取原始表达式内容值
+     * @param Expression $expression
+     * @return mixed
+     */
     protected function getExpressionValue(Expression $expression)
     {
         return $expression->getValue();
     }
 
+    /**
+     * term语句构建
+     * @param $where
+     */
     protected function term($where)
     {
         $this->sql[$this->partition($where)][] = [
@@ -67,6 +87,10 @@ class BoolGrammar
         ];
     }
 
+    /**
+     * range语句构建
+     * @param $where
+     */
     protected function range($where)
     {
         $this->sql[$this->partition($where)][] = [
@@ -76,6 +100,10 @@ class BoolGrammar
         ];
     }
 
+    /**
+     * match语句构建
+     * @param $where
+     */
     protected function match($where)
     {
         $this->sql[$this->partition($where)][] = [
@@ -85,6 +113,10 @@ class BoolGrammar
         ];
     }
 
+    /**
+     * terms语句构建
+     * @param $where
+     */
     protected function terms($where)
     {
         $this->sql[$this->partition($where)][] = [
@@ -94,6 +126,10 @@ class BoolGrammar
         ];
     }
 
+    /**
+     * bool语句构建
+     * @param $where
+     */
     protected function bool($where)
     {
         $build = $where['column'];
@@ -109,6 +145,11 @@ class BoolGrammar
         $this->sql[$this->partition($where)][] = $build->toArray();
     }
 
+    /**
+     * 区分搜索块类型
+     * @param $where
+     * @return string
+     */
     protected function partition($where)
     {
         if ('=' === $where['operator']) {
