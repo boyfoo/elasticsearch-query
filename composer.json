@@ -1,0 +1,29 @@
+{
+    "name": "boyfoo/elasticsearch-query",
+    "description": "elasticsearch query build",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "zx",
+            "email": "zx358317301@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Boyfoo\\ElasticsearchSql\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Boyfoo\\ElasticsearchSql\\Tests\\": "tests"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5",
+        "symfony/var-dumper": "3.4"
+    }
+}
