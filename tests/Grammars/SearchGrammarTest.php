@@ -4,6 +4,7 @@ namespace Boyfoo\ElasticsearchSql\Tests\Grammars;
 
 use Boyfoo\ElasticsearchSql\Query\Build;
 use Boyfoo\ElasticsearchSql\Search;
+use Boyfoo\ElasticsearchSql\Support\Es;
 use PHPUnit\Framework\TestCase;
 
 class SearchGrammarTest extends TestCase
@@ -72,5 +73,22 @@ class SearchGrammarTest extends TestCase
 
         $str = '{"query":{"bool":{"must":[{"term":{"type":{"value":2}}},{"bool":{"must":[{"term":{"no":{"value":1001}}},{"term":{"year":{"value":2020}}}]}}],"must_not":[{"range":{"price":{"gte":10,"lt":20}}}]}}}';
         $this->assertEquals(json_decode($str, true), $sql['body']);
+    }
+
+    public function testRow()
+    {
+        $sql = Search::create();
+
+        $sql->index("test01");
+        $sql->query(Es::row([
+            'term' => [
+                'question_no' => [
+                    'value' => 64506012
+                ]
+            ]
+        ]));
+
+        $str = '{"index":"test01","type":"_doc","body":{"query":{"term":{"question_no":{"value":64506012}}}}}';
+        $this->assertEquals(json_decode($str, true), $sql->toArray());
     }
 }

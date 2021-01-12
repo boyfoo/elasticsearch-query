@@ -12,7 +12,7 @@ trait ShouldTrait
      * @param $value
      * @return $this
      */
-    public function shouldMatch($column, $value)
+    public function shouldMatch($column, $value = null)
     {
         return $this->match($column, $value, '=', 'or');
     }
@@ -22,7 +22,7 @@ trait ShouldTrait
      * @param $value
      * @return $this
      */
-    public function shouldTerm($column, $value)
+    public function shouldTerm($column, $value = null)
     {
         return $this->term($column, $value, '=', 'or');
     }
@@ -32,7 +32,7 @@ trait ShouldTrait
      * @param $value
      * @return $this
      */
-    public function shouldTerms($column, $value)
+    public function shouldTerms($column, $value = null)
     {
         return $this->terms($column, $value, '=', 'or');
     }
@@ -42,7 +42,7 @@ trait ShouldTrait
      * @param $value array
      * @return $this
      */
-    public function shouldRange($column, $value)
+    public function shouldRange($column, $value = null)
     {
         return $this->range($column, $value, '=', 'or');
     }

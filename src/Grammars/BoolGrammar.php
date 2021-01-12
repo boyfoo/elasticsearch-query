@@ -4,6 +4,9 @@ namespace Boyfoo\ElasticsearchSql\Grammars;
 
 
 use Boyfoo\ElasticsearchSql\Query\Build;
+use Boyfoo\ElasticsearchSql\Query\Expression;
+use Boyfoo\ElasticsearchSql\Support\Resolve;
+use Closure;
 
 class BoolGrammar
 {
@@ -29,12 +32,28 @@ class BoolGrammar
     public function toArray()
     {
         foreach ($this->search->getWheres() as $where) {
-            $this->{$where['type']}($where);
+            if ($where['column'] instanceof Expression) {
+                $this->expression($where);
+            } else {
+                $this->{$where['type']}($where);
+            }
         }
 
         return ['bool' => array_filter($this->sql, function ($item) {
             return $item;
         })];
+    }
+
+    protected function expression($where)
+    {
+        $this->sql[$this->partition($where)][] = [
+            $where['type'] => $this->getExpressionValue($where['column'])
+        ];
+    }
+
+    protected function getExpressionValue(Expression $expression)
+    {
+        return $expression->getValue();
     }
 
     protected function term($where)
@@ -77,7 +96,11 @@ class BoolGrammar
 
     protected function bool($where)
     {
-        $build = $where['value'];
+        $build = $where['column'];
+
+        if ($build instanceof Closure) {
+            $build = Resolve::closureToQuery($build);
+        }
 
         if (!($build instanceof Build)) {
             return;

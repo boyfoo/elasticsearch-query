@@ -4,6 +4,8 @@ namespace Boyfoo\ElasticsearchSql\Tests\Grammars;
 
 use Boyfoo\ElasticsearchSql\Query\Build;
 use Boyfoo\ElasticsearchSql\Grammars\BoolGrammar;
+use Boyfoo\ElasticsearchSql\Support\Es;
+use Boyfoo\ElasticsearchSql\Support\Row;
 use PHPUnit\Framework\TestCase;
 
 class QueryGrammarTest extends TestCase
@@ -79,5 +81,37 @@ class QueryGrammarTest extends TestCase
         $sql = $query->toArray();
         $str = '{"bool":{"must":[{"term":{"price":{"value":100}}}],"must_not":[{"bool":{"must":[{"term":{"type":{"value":1}}},{"term":{"year":{"value":2020}}}]}}]}}';
         $this->assertEquals(json_decode($str, true), $sql);
+    }
+
+    public function testRow()
+    {
+        $q = Build::create();
+
+        $q->term(Es::row([
+            'price' => 100
+        ]));
+
+        $q->notTerm(Es::row([
+            'type' => 2
+        ]));
+
+        $str = '{"bool":{"must":[{"term":{"price":100}}],"must_not":[{"term":{"type":2}}]}}';
+
+        $this->assertEquals(json_decode($str, true), $q->toArray());
+
+
+        $q = Build::create();
+        $q->bool(Es::row([
+            "must" => [
+                [
+                    "term" => [
+                        'subject_id' => 12
+                    ]
+                ]
+            ]
+        ]));
+
+        $str = '{"bool":{"must":[{"bool":{"must":[{"term":{"subject_id":12}}]}}]}}';
+        $this->assertEquals(json_decode($str, true), $q->toArray());
     }
 }

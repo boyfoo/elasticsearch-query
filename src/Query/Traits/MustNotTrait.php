@@ -12,7 +12,7 @@ trait MustNotTrait
      * @param $value
      * @return $this
      */
-    public function notMatch($column, $value)
+    public function notMatch($column, $value = null)
     {
         return $this->match($column, $value, '!=', 'and');
     }
@@ -22,7 +22,7 @@ trait MustNotTrait
      * @param $value
      * @return $this
      */
-    public function notTerm($column, $value)
+    public function notTerm($column, $value = null)
     {
         return $this->term($column, $value, '!=', 'and');
     }
@@ -32,7 +32,7 @@ trait MustNotTrait
      * @param $value
      * @return $this
      */
-    public function notTerms($column, $value)
+    public function notTerms($column, $value = null)
     {
         return $this->terms($column, $value, '!=', 'and');
     }
@@ -42,7 +42,7 @@ trait MustNotTrait
      * @param $value array
      * @return $this
      */
-    public function notRange($column, $value)
+    public function notRange($column, $value = null)
     {
         return $this->range($column, $value, '!=', 'and');
     }

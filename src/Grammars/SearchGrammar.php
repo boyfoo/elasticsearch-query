@@ -5,7 +5,10 @@ namespace Boyfoo\ElasticsearchSql\Grammars;
 
 
 use Boyfoo\ElasticsearchSql\Query\Build;
+use Boyfoo\ElasticsearchSql\Query\Expression;
 use Boyfoo\ElasticsearchSql\Search;
+use Boyfoo\ElasticsearchSql\Support\Resolve;
+use Closure;
 
 class SearchGrammar
 {
@@ -43,12 +46,17 @@ class SearchGrammar
 
         if (!is_null($this->search->getQuery()) && is_array($this->search->getQuery())) {
 
-            foreach ($this->search->getQuery() as $queryBuild) {
-                /**
-                 * @var Build $queryBuild
-                 */
+            foreach ($this->search->getQuery() as $build) {
 
-                $body['query'] = $queryBuild->toArray();
+                if ($build instanceof Closure) {
+                    $build = Resolve::closureToQuery($build);
+                }
+
+                if ($build instanceof Expression) {
+                    $body['query'] = $build->getValue();
+                } elseif ($build instanceof Build) {
+                    $body['query'] = $build->toArray();
+                }
             }
         }
 

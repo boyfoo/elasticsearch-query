@@ -6,6 +6,7 @@ namespace Boyfoo\ElasticsearchSql;
 
 use Boyfoo\ElasticsearchSql\Query\Build;
 use Boyfoo\ElasticsearchSql\Grammars\SearchGrammar;
+use Boyfoo\ElasticsearchSql\Query\Expression;
 use Boyfoo\ElasticsearchSql\Support\Resolve;
 use Closure;
 
@@ -48,16 +49,12 @@ class Search
     }
 
     /**
-     * @param Build|Closure $build
+     * @param Build|Closure|Expression $build
      * @return $this
      */
     public function query($build)
     {
-        if ($build instanceof Build) {
-            $this->query[] = $build;
-        } elseif ($build instanceof Closure) {
-            $this->query[] = Resolve::closureToQuery($build);
-        }
+        $this->query[] = $build;
 
         return $this;
     }

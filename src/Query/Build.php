@@ -55,7 +55,7 @@ class Build
      * @param $boolean
      * @return $this
      */
-    public function term($column, $value, $operator = '=', $boolean = 'and')
+    public function term($column, $value = null, $operator = '=', $boolean = 'and')
     {
         return $this->addWheres('term', ...func_get_args());
     }
@@ -67,7 +67,7 @@ class Build
      * @param $boolean
      * @return $this
      */
-    public function terms($column, $value, $operator = '=', $boolean = 'and')
+    public function terms($column, $value = null, $operator = '=', $boolean = 'and')
     {
         return $this->addWheres(
             'terms', $column, is_array($value) ? $value : [$value], $operator, $boolean
@@ -81,7 +81,7 @@ class Build
      * @param $boolean
      * @return $this
      */
-    public function range($column, array $value, $operator = '=', $boolean = 'and')
+    public function range($column, array $value = [], $operator = '=', $boolean = 'and')
     {
         foreach ($value as $k => $v) {
             if (isset($this->operators[$k])) {
@@ -94,19 +94,14 @@ class Build
     }
 
     /**
-     * @param Build|Closure $build
+     * @param Build|Closure|Expression $build
      * @param string $operator
      * @param string $boolean
      * @return $this
      */
     public function bool($build, $operator = '=', $boolean = 'and')
     {
-
-        if ($build instanceof Closure) {
-            $build = Resolve::closureToQuery($build);
-        }
-
-        return $this->addWheres('bool', '', $build, $operator, $boolean);
+        return $this->addWheres('bool', $build, null, $operator, $boolean);
     }
 
     /**
