@@ -1,8 +1,7 @@
 <?php
 
-namespace Boyfoo\ElasticsearchSql\Tests\Aggs;
+namespace Boyfoo\ElasticsearchSql\Tests;
 
-use Boyfoo\ElasticsearchSql\Aggs\Aggs;
 use PHPUnit\Framework\TestCase;
 
 class AggsTest extends TestCase
