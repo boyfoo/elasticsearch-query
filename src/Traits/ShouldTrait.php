@@ -1,9 +1,9 @@
 <?php
 
-namespace Boyfoo\ElasticsearchSql\Query\Traits;
+namespace Boyfoo\ElasticsearchSql\Traits;
 
-use Boyfoo\ElasticsearchSql\Query\Build;
-use Boyfoo\ElasticsearchSql\Query\Row;
+use Boyfoo\ElasticsearchSql\Query;
+use Boyfoo\ElasticsearchSql\Support\Row;
 
 trait ShouldTrait
 {
@@ -48,7 +48,7 @@ trait ShouldTrait
     }
 
     /**
-     * @param Build|Closure|Row $build
+     * @param Query|Closure|Row $build
      * @return $this
      */
     public function shouldBool($build)

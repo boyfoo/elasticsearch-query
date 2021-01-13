@@ -2,7 +2,7 @@
 
 namespace Boyfoo\ElasticsearchSql\Grammars;
 
-use Boyfoo\ElasticsearchSql\Aggs\Aggs;
+use Boyfoo\ElasticsearchSql\Aggs;
 
 class AggsGrammar
 {

@@ -2,7 +2,6 @@
 
 namespace Boyfoo\ElasticsearchSql\Support;
 
-use Boyfoo\ElasticsearchSql\Query\Row;
 
 class Es
 {

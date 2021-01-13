@@ -2,17 +2,17 @@
 
 namespace Boyfoo\ElasticsearchSql\Support;
 
-use Boyfoo\ElasticsearchSql\Query\Build;
+use Boyfoo\ElasticsearchSql\Query;
 
 class Resolve
 {
     /**
      * @param $closure
-     * @return Build
+     * @return Query
      */
     public static function closureToQuery($closure)
     {
-        $query = new Build();
+        $query = new Query();
         $closure($query);
         return $query;
     }

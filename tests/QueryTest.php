@@ -1,11 +1,11 @@
 <?php
 
-namespace Boyfoo\ElasticsearchSql\Tests\Query;
+namespace Boyfoo\ElasticsearchSql\Tests;
 
-use Boyfoo\ElasticsearchSql\Query\Build;
+use Boyfoo\ElasticsearchSql\Query as Build;
 use PHPUnit\Framework\TestCase;
 
-class BuildTest extends TestCase
+class QueryTest extends TestCase
 {
     public function testTerm()
     {

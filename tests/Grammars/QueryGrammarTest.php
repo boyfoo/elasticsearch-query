@@ -2,7 +2,7 @@
 
 namespace Boyfoo\ElasticsearchSql\Tests\Grammars;
 
-use Boyfoo\ElasticsearchSql\Query\Build;
+use Boyfoo\ElasticsearchSql\Query as Build;
 use Boyfoo\ElasticsearchSql\Grammars\BoolGrammar;
 use Boyfoo\ElasticsearchSql\Support\Es;
 use PHPUnit\Framework\TestCase;

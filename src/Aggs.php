@@ -1,11 +1,16 @@
 <?php
 
-namespace Boyfoo\ElasticsearchSql\Aggs;
+namespace Boyfoo\ElasticsearchSql;
 
 use Boyfoo\ElasticsearchSql\Grammars\AggsGrammar;
 
 class Aggs
 {
+    public function terms($column, $size = 10)
+    {
+
+    }
+
     /**
      * @return array
      */

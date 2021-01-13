@@ -1,9 +1,9 @@
 <?php
 
-namespace Boyfoo\ElasticsearchSql\Query\Traits;
+namespace Boyfoo\ElasticsearchSql\Traits;
 
-use Boyfoo\ElasticsearchSql\Query\Build;
-use Boyfoo\ElasticsearchSql\Query\Row;
+use Boyfoo\ElasticsearchSql\Query;
+use Boyfoo\ElasticsearchSql\Support\Row;
 
 trait MustNotTrait
 {
@@ -52,7 +52,7 @@ trait MustNotTrait
 
     /**
      * 必须同时满足所有条件 所有条件为一个must_not条件
-     * @param Build|Closure|Row $build
+     * @param Query|Closure|Row $build
      * @return $this
      */
     public function notBool($build)

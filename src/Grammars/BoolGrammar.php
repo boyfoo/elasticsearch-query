@@ -2,9 +2,9 @@
 
 namespace Boyfoo\ElasticsearchSql\Grammars;
 
-use Boyfoo\ElasticsearchSql\Query\Build;
-use Boyfoo\ElasticsearchSql\Query\Row;
+use Boyfoo\ElasticsearchSql\Query;
 use Boyfoo\ElasticsearchSql\Support\Resolve;
+use Boyfoo\ElasticsearchSql\Support\Row;
 use Closure;
 
 /**
@@ -23,7 +23,7 @@ class BoolGrammar
         'should' => [],
     ];
 
-    public function __construct(Build $search)
+    public function __construct(Query $search)
     {
         $this->query = $search;
     }
@@ -137,7 +137,7 @@ class BoolGrammar
             $build = Resolve::closureToQuery($build);
         }
 
-        if (!($build instanceof Build)) {
+        if (!($build instanceof Query)) {
             return;
         }
 

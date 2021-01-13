@@ -1,17 +1,18 @@
 <?php
 
-namespace Boyfoo\ElasticsearchSql\Query;
+namespace Boyfoo\ElasticsearchSql;
 
 use Boyfoo\ElasticsearchSql\Grammars\BoolGrammar;
-use Boyfoo\ElasticsearchSql\Query\Traits\MustNotTrait;
-use Boyfoo\ElasticsearchSql\Query\Traits\ShouldTrait;
+use Boyfoo\ElasticsearchSql\Traits\MustNotTrait;
+use Boyfoo\ElasticsearchSql\Traits\ShouldTrait;
+use Boyfoo\ElasticsearchSql\Support\Row;
 use Closure;
 
 /**
  * Elasticsearch query bool
  * @package Boyfoo\ElasticsearchSql\Query
  */
-class Build
+class Query
 {
     use ShouldTrait, MustNotTrait;
 
@@ -108,7 +109,7 @@ class Build
 
     /**
      * 必须同时满足多个条件 此多个条件为一个must条件
-     * @param Build|Closure|Row $build
+     * @param Query|Closure|Row $build
      * @param string $operator
      * @param string $boolean
      * @return $this

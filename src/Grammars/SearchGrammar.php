@@ -2,10 +2,10 @@
 
 namespace Boyfoo\ElasticsearchSql\Grammars;
 
-use Boyfoo\ElasticsearchSql\Query\Build;
-use Boyfoo\ElasticsearchSql\Query\Row;
+use Boyfoo\ElasticsearchSql\Query;
 use Boyfoo\ElasticsearchSql\Search;
 use Boyfoo\ElasticsearchSql\Support\Resolve;
+use Boyfoo\ElasticsearchSql\Support\Row;
 use Closure;
 
 /**
@@ -59,7 +59,7 @@ class SearchGrammar
 
             if ($build instanceof Row) {
                 $body['query'] = $build->getValue();
-            } elseif ($build instanceof Build) {
+            } elseif ($build instanceof Query) {
                 $body['query'] = $build->toArray();
             }
         }
