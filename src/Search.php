@@ -22,6 +22,8 @@ class Search
 
     protected $size;
 
+    protected $aggs;
+
     /**
      * 设置文档索引
      * @param string $index
@@ -55,6 +57,13 @@ class Search
     public function query($build)
     {
         $this->query = $build;
+
+        return $this;
+    }
+
+    public function aggs($aggs)
+    {
+        $this->aggs = $aggs;
 
         return $this;
     }
@@ -182,6 +191,14 @@ class Search
     public function getQuery()
     {
         return $this->query;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getAggs()
+    {
+        return $this->aggs;
     }
 
     /**

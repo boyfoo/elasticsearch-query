@@ -2,7 +2,6 @@
 
 namespace Boyfoo\ElasticsearchSql\Support;
 
-
 class Es
 {
     /**

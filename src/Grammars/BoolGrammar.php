@@ -15,7 +15,7 @@ use Closure;
  */
 class BoolGrammar
 {
-    protected $query;
+    protected $queryBuild;
 
     protected $sql = [
         'must' => [],
@@ -25,7 +25,7 @@ class BoolGrammar
 
     public function __construct(Query $search)
     {
-        $this->query = $search;
+        $this->queryBuild = $search;
     }
 
     /**
@@ -37,7 +37,7 @@ class BoolGrammar
      */
     public function toArray()
     {
-        foreach ($this->query->getWheres() as $where) {
+        foreach ($this->queryBuild->getWheres() as $where) {
             if ($where['column'] instanceof Row) {
                 $this->expression($where);
             } else {

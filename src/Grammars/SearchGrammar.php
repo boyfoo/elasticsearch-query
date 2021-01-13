@@ -15,11 +15,11 @@ use Closure;
  */
 class SearchGrammar
 {
-    protected $search;
+    protected $searchBuild;
 
     public function __construct(Search $search)
     {
-        $this->search = $search;
+        $this->searchBuild = $search;
     }
 
     /**
@@ -27,36 +27,25 @@ class SearchGrammar
      */
     public function toArray()
     {
-        $sql = [
-            'index' => $this->search->getIndex(),
-            'type' => $this->search->getType(),
-        ];
-
         $body = [];
 
-        if (!is_null($this->search->getFrom())) {
-            $body['from'] = $this->search->getFrom();
-        }
+        $from = $this->searchBuild->getFrom();
+        !is_null($from) && $body['from'] = $from;
 
-        if (!is_null($this->search->getSize())) {
-            $body['size'] = $this->search->getSize();
-        }
+        $size = $this->searchBuild->getSize();
+        !is_null($size) &&  $body['size'] = $size;
 
-        if (!is_null($this->search->getSource())) {
-            $body['_source'] = $this->search->getSource();
-        }
+        $source = $this->searchBuild->getSource();
+        !is_null($source) &&  $body['_source'] = $source;
 
-        if (!is_null($this->search->getSort())) {
-            $body['sort'] = $this->search->getSort();
-        }
+        $sort = $this->searchBuild->getSort();
+        !is_null($sort) &&  $body['sort'] = $sort;
 
-        if (!is_null($this->search->getQuery())) {
-            $build = $this->search->getQuery();
-
+        $build = $this->searchBuild->getQuery();
+        if (!is_null($build)) {
             if ($build instanceof Closure) {
                 $build = Resolve::closureToQuery($build);
             }
-
             if ($build instanceof Row) {
                 $body['query'] = $build->getValue();
             } elseif ($build instanceof Query) {
@@ -64,8 +53,15 @@ class SearchGrammar
             }
         }
 
-        $sql['body'] = $body;
+//        $build = $this->searchBuild->getAggs();
+//        if (!is_null($build)) {
+//
+//        }
 
-        return $sql;
+        return [
+            'index' => $this->searchBuild->getIndex(),
+            'type' => $this->searchBuild->getType(),
+            'body' => $body
+        ];
     }
 }

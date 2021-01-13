@@ -2,6 +2,7 @@
 
 namespace Boyfoo\ElasticsearchSql\Support;
 
+use Boyfoo\ElasticsearchSql\Aggs;
 use Boyfoo\ElasticsearchSql\Query;
 
 class Resolve
@@ -12,8 +13,19 @@ class Resolve
      */
     public static function closureToQuery($closure)
     {
-        $query = new Query();
+        $query = Query::create();
         $closure($query);
         return $query;
+    }
+
+    /**
+     * @param $closure
+     * @return Aggs
+     */
+    public static function closureToAggs($closure)
+    {
+        $aggs = Aggs::create();
+        $closure($aggs);
+        return $aggs;
     }
 }
