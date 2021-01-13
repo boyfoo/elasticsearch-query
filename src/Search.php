@@ -61,7 +61,11 @@ class Search
         return $this;
     }
 
-    public function aggs($aggs)
+    /**
+     * @param Aggs|Closure|Row ...$aggs
+     * @return $this
+     */
+    public function aggs(...$aggs)
     {
         $this->aggs = $aggs;
 

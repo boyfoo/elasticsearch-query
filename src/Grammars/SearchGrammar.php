@@ -2,6 +2,7 @@
 
 namespace Boyfoo\ElasticsearchSql\Grammars;
 
+use Boyfoo\ElasticsearchSql\Aggs;
 use Boyfoo\ElasticsearchSql\Query;
 use Boyfoo\ElasticsearchSql\Search;
 use Boyfoo\ElasticsearchSql\Support\Resolve;
@@ -33,35 +34,65 @@ class SearchGrammar
         !is_null($from) && $body['from'] = $from;
 
         $size = $this->searchBuild->getSize();
-        !is_null($size) &&  $body['size'] = $size;
+        !is_null($size) && $body['size'] = $size;
 
         $source = $this->searchBuild->getSource();
-        !is_null($source) &&  $body['_source'] = $source;
+        !is_null($source) && $body['_source'] = $source;
 
         $sort = $this->searchBuild->getSort();
-        !is_null($sort) &&  $body['sort'] = $sort;
+        !is_null($sort) && $body['sort'] = $sort;
 
         $build = $this->searchBuild->getQuery();
         if (!is_null($build)) {
-            if ($build instanceof Closure) {
-                $build = Resolve::closureToQuery($build);
-            }
-            if ($build instanceof Row) {
-                $body['query'] = $build->getValue();
-            } elseif ($build instanceof Query) {
-                $body['query'] = $build->toArray();
-            }
+            $body['query'] = $this->buildQuery($build);
         }
 
-//        $build = $this->searchBuild->getAggs();
-//        if (!is_null($build)) {
-//
-//        }
+        $build = $this->searchBuild->getAggs();
+        if (!is_null($build)) {
+            $body['aggs'] = $this->buildAggs($build);
+        }
 
         return [
             'index' => $this->searchBuild->getIndex(),
             'type' => $this->searchBuild->getType(),
             'body' => $body
         ];
+    }
+
+    /**
+     * @param $build
+     * @return array
+     */
+    protected function buildQuery($build)
+    {
+        $res = [];
+        if ($build instanceof Closure) {
+            $build = Resolve::closureToQuery($build);
+        }
+        if ($build instanceof Row) {
+            $res = $build->getValue();
+        } elseif ($build instanceof Query) {
+            $res = $build->toArray();
+        }
+
+        return $res;
+    }
+
+    protected function buildAggs($builds)
+    {
+        $res = [];
+
+        foreach ($builds as $build) {
+            if ($build instanceof Closure) {
+                $build = Resolve::closureToAggs($build);
+            }
+            if ($build instanceof Row) {
+                $res += $build->getValue();
+            } elseif ($build instanceof Aggs) {
+                $res += $build->toArray();
+            }
+        }
+
+        return $res;
     }
 }

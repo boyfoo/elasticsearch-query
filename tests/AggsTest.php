@@ -40,7 +40,7 @@ class AggsTest extends TestCase
             );
 
 //
-        $a = $aggs->toArray();
-        dump($a);
+//        $a = $aggs->toArray();
+//        dump($a);
     }
 }
