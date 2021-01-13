@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Boyfoo\ElasticsearchSql\Query\Traits;
 
 use Boyfoo\ElasticsearchSql\Query\Build;

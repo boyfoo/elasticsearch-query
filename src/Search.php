@@ -1,13 +1,10 @@
 <?php
 
-
 namespace Boyfoo\ElasticsearchSql;
-
 
 use Boyfoo\ElasticsearchSql\Query\Build;
 use Boyfoo\ElasticsearchSql\Grammars\SearchGrammar;
 use Boyfoo\ElasticsearchSql\Query\Row;
-use Boyfoo\ElasticsearchSql\Support\Resolve;
 use Closure;
 
 class Search

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Boyfoo\ElasticsearchSql\Grammars;
-
 
 use Boyfoo\ElasticsearchSql\Query\Build;
 use Boyfoo\ElasticsearchSql\Query\Row;

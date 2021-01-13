@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Boyfoo\ElasticsearchSql\Grammars;
-
 
 use Boyfoo\ElasticsearchSql\Aggs\Aggs;
 

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Boyfoo\ElasticsearchSql\Query;
-
 
 class Row
 {

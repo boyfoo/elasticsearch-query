@@ -1,13 +1,11 @@
 <?php
 
-
 namespace Boyfoo\ElasticsearchSql\Query;
 
 use Boyfoo\ElasticsearchSql\Grammars\BoolGrammar;
 use Boyfoo\ElasticsearchSql\Query\Traits\MustNotTrait;
 use Boyfoo\ElasticsearchSql\Query\Traits\ShouldTrait;
 use Closure;
-
 
 /**
  * Elasticsearch query bool
