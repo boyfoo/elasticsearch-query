@@ -1,27 +1,64 @@
 <h1 align="center"> elasticsearch-query </h1>
 
-<p align="center"> .</p>
+<p align="center">:rainbow: ElasticSearch DSL 查询语句构建组件</p>
 
 [![Build Status](https://travis-ci.com/boyfoo/elasticsearch-query.svg?branch=master)](https://travis-ci.com/boyfoo/elasticsearch-query)
-## Installing
+
+## 安装
 
 ```shell
 $ composer require boyfoo/elasticsearch-query -vvv
 ```
 
-## Usage
+## 使用
 
-TODO
+```php
+use Boyfoo\ElasticsearchSql\Search;
+use Boyfoo\ElasticsearchSql\Query;
 
-## Contributing
+// 创建查询
+$sql = Search::create()
+        ->index('goods')
+        ->source(['no', 'price', 'category'])
+        ->size(10)
+        ->query(function (Query $query){
+            $query->match("小米手机")->term('category', '电子产品');
+        })
+        ->toArray();
+```
 
-You can contribute in one of three ways:
+打印结果
 
-1. File bug reports using the [issue tracker](https://github.com/boyfoo/elasticsearch-query/issues).
-2. Answer questions or fix bugs on the [issue tracker](https://github.com/boyfoo/elasticsearch-query/issues).
-3. Contribute new features or update the wiki.
-
-_The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and PSR-2 coding guidelines. Any new code contributions must be accompanied by unit tests where applicable._
+```php
+[
+  "index" => "goods",
+  "type" => "_doc",
+  "body" => [
+    "_source" => [
+      "no", "name", "price", "category"
+    ],
+    "size" => 10,
+    "query" => [
+      "bool" => [
+        "must" => [
+          [
+            "match" => [
+              "name" => "小米手机"
+            ]
+          ],
+          [
+            "term" => [
+              "category" => [
+                "value" => "电子产品"
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+];
+```
 
 ## License
 
