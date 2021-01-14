@@ -53,9 +53,9 @@ class Aggs
     }
 
     /**
-     * @param null $name
-     * @param null $field
-     * @param null $size
+     * @param string|null $name
+     * @param string|null $field
+     * @param int|null $size
      * @return $this
      */
     public function terms($name = null, $field = null, $size = null)
@@ -65,8 +65,16 @@ class Aggs
         return $this->type('terms');
     }
 
-    public function topHits()
+    /**
+     * @param string|null $name
+     * @param int|null $size
+     * @param array|bool|null $source
+     * @return $this
+     */
+    public function topHits($name = null, $size = null, $source = null)
     {
+        $this->buildParams(compact('name', 'size', 'source'));
+
         return $this->type('top_hits');
     }
 
@@ -108,7 +116,7 @@ class Aggs
     protected function buildParams($params)
     {
         foreach ($params as $k => $v) {
-            if (!is_null($v)) {
+            if (!is_null($v) && method_exists($this, $k)) {
                 $this->{$k}($v);
             }
         }

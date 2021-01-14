@@ -24,9 +24,8 @@ class AggsGrammarTest extends TestCase
         $this->assertEquals(
             json_decode('{"test_name":{"top_hits":{"size":4,"_source":["no","price"],"sort":[{"price":{"order":"asc"}}]}}}', true),
             Aggs::create()
-                ->topHits()
+                ->topHits('test_name')
                 ->size(4)
-                ->name('test_name')
                 ->source(['no', 'price'])->sortBy('price')
                 ->toArray()
         );
