@@ -28,6 +28,11 @@ class AggsGrammar
     public function toArray()
     {
         $aggs = $this->aggsBuild->getCollect();
+
+        if (!method_exists($this, $aggs['type'])) {
+            return [];
+        }
+
         $res = $this->{$aggs['type']}($aggs);
         if ($this->hasChildAggs($aggs)) {
             $res[$this->getName($aggs)]['aggs'] = $this->childAggs($aggs['aggs']);
@@ -39,7 +44,8 @@ class AggsGrammar
      * @param $aggs
      * @return bool
      */
-    protected function hasChildAggs($aggs) {
+    protected function hasChildAggs($aggs)
+    {
         return !is_null($aggs['aggs']) && is_array($aggs['aggs']);
     }
 

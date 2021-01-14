@@ -78,6 +78,10 @@ class SearchGrammar
         return $res;
     }
 
+    /**
+     * @param $builds
+     * @return array
+     */
     protected function buildAggs($builds)
     {
         $res = [];
