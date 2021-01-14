@@ -28,19 +28,7 @@ class SearchGrammar
      */
     public function toArray()
     {
-        $body = [];
-
-        $from = $this->searchBuild->getFrom();
-        !is_null($from) && $body['from'] = $from;
-
-        $size = $this->searchBuild->getSize();
-        !is_null($size) && $body['size'] = $size;
-
-        $source = $this->searchBuild->getSource();
-        !is_null($source) && $body['_source'] = $source;
-
-        $sort = $this->searchBuild->getSort();
-        !is_null($sort) && $body['sort'] = $sort;
+        $body = $this->searchBuild->getParameter();
 
         $build = $this->searchBuild->getQuery();
         if (!is_null($build)) {

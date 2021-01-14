@@ -4,23 +4,18 @@ namespace Boyfoo\ElasticsearchSql;
 
 use Boyfoo\ElasticsearchSql\Grammars\SearchGrammar;
 use Boyfoo\ElasticsearchSql\Support\Row;
+use Boyfoo\ElasticsearchSql\Traits\DslParameter;
 use Closure;
 
 class Search
 {
+    use DslParameter;
+
     protected $index;
 
     protected $type = '_doc';
 
     protected $query;
-
-    protected $sort;
-
-    protected $source;
-
-    protected $from;
-
-    protected $size;
 
     protected $aggs;
 
@@ -73,77 +68,6 @@ class Search
     }
 
     /**
-     * 设置from内容
-     * @param int $value
-     * @return $this
-     */
-    public function from($value)
-    {
-        $this->from = $value;
-
-        return $this;
-    }
-
-    /**
-     * 设置size内容
-     * @param int $value
-     * @return $this
-     */
-    public function size($value)
-    {
-        $this->size = $value;
-
-        return $this;
-    }
-
-    /**
-     * 设置搜索字段
-     * @param $source
-     * @return $this
-     */
-    public function source($source)
-    {
-        if (is_bool($source)) {
-            $this->source = $source;
-        } else {
-            $this->source = is_array($source) ? $source : func_get_args();
-        }
-
-        return $this;
-    }
-
-    /**
-     * 设置排序字段
-     * @param string $column 字段
-     * @param string $value desc
-     * @return $this
-     */
-    public function sortBy($column, $value = 'asc')
-    {
-        if (!is_array($value)) {
-            $value = [
-                $column => [
-                    'order' => $value
-                ]
-            ];
-        }
-
-        $this->sort[] = $value;
-
-        return $this;
-    }
-
-    /**
-     * 设置排序字段倒叙
-     * @param string $column
-     * @return $this
-     */
-    public function sortByDesc($column)
-    {
-        return $this->sortBy($column, 'desc');
-    }
-
-    /**
      * 获取当前查询文档索引
      * @return string|null
      */
@@ -162,33 +86,6 @@ class Search
     }
 
     /**
-     * 获取当前查询from值
-     * @return int|null
-     */
-    public function getFrom()
-    {
-        return $this->from;
-    }
-
-    /**
-     * 获取当前查询size值
-     * @return int|null
-     */
-    public function getSize()
-    {
-        return $this->size;
-    }
-
-    /**
-     * 获取当前查询字段
-     * @return array|null
-     */
-    public function getSource()
-    {
-        return $this->source;
-    }
-
-    /**
      * 获当前查询构建的query
      * @return Query|Closure|Row|null
      */
@@ -203,15 +100,6 @@ class Search
     public function getAggs()
     {
         return $this->aggs;
-    }
-
-    /**
-     * 获取当前查询排序
-     * @return array|null
-     */
-    public function getSort()
-    {
-        return $this->sort;
     }
 
     /**

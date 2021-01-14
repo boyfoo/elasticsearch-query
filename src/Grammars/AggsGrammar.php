@@ -5,10 +5,14 @@ namespace Boyfoo\ElasticsearchSql\Grammars;
 use Boyfoo\ElasticsearchSql\Aggs;
 use Boyfoo\ElasticsearchSql\Support\Resolve;
 use Boyfoo\ElasticsearchSql\Support\Row;
+use Boyfoo\ElasticsearchSql\Support\Str;
 use Closure;
 
 class AggsGrammar
 {
+    /**
+     * @var Aggs
+     */
     protected $aggsBuild;
 
     /**
@@ -29,47 +33,18 @@ class AggsGrammar
     {
         $aggs = $this->aggsBuild->getCollect();
 
-        if (!method_exists($this, $aggs['type'])) {
+        $method = 'resolve' . Str::studly($aggs['type']);
+
+        if (!method_exists($this, $method)) {
             return [];
         }
 
-        $res = $this->{$aggs['type']}($aggs);
-        if ($this->hasChildAggs($aggs)) {
-            $res[$this->getName($aggs)]['aggs'] = $this->childAggs($aggs['aggs']);
+        $aggs['parameter'] = $this->aggsBuild->getParameter();
+
+        $res = $this->{$method}($aggs);
+        if ($res && $this->hasChildAggs($aggs)) {
+            $res[$this->getName($aggs)]['aggs'] = $this->resolveChildAggs($aggs['aggs']);
         }
-        return $res;
-    }
-
-    /**
-     * @param $aggs
-     * @return bool
-     */
-    protected function hasChildAggs($aggs)
-    {
-        return !is_null($aggs['aggs']) && is_array($aggs['aggs']);
-    }
-
-    /**
-     * @param $aggs
-     * @return array
-     */
-    protected function childAggs($aggs)
-    {
-        $res = [];
-        foreach ($aggs as $v) {
-
-            if ($v instanceof Closure) {
-                $v = Resolve::closureToAggs($v);
-            }
-
-            if ($v instanceof Aggs) {
-                $res += $v->toArray();
-            } elseif ($v instanceof Row) {
-                $res += $v->getValue();
-            }
-
-        }
-
         return $res;
     }
 
@@ -77,7 +52,7 @@ class AggsGrammar
      * @param $aggs
      * @return array
      */
-    protected function terms($aggs)
+    protected function resolveTerms($aggs)
     {
         return [
             $this->getName($aggs) => [
@@ -85,6 +60,17 @@ class AggsGrammar
                     "field" => $aggs['field'],
                     'size' => $this->getSize($aggs)
                 ]
+            ]
+        ];
+    }
+
+    protected function resolveTopHits($aggs)
+    {
+        return [
+            $this->getName($aggs) => [
+                $aggs['type'] => array_merge([
+                    'size' => $this->getSize($aggs)
+                ], $aggs['parameter'])
             ]
         ];
     }
@@ -105,5 +91,39 @@ class AggsGrammar
     protected function getSize($aggs)
     {
         return $aggs['size'] ?: static::$defaultSize;
+    }
+
+    /**
+     * @param $aggs
+     * @return bool
+     */
+    protected function hasChildAggs($aggs)
+    {
+        return !is_null($aggs['aggs']) && is_array($aggs['aggs']);
+    }
+
+    /**
+     * @param $aggs
+     * @return array
+     */
+    protected function resolveChildAggs($aggs)
+    {
+        $res = [];
+
+        foreach ($aggs as $v) {
+
+            if ($v instanceof Closure) {
+                $v = Resolve::closureToAggs($v);
+            }
+
+            if ($v instanceof Aggs) {
+                $res += $v->toArray();
+            } elseif ($v instanceof Row) {
+                $res += $v->getValue();
+            }
+
+        }
+
+        return $res;
     }
 }

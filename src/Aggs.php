@@ -4,9 +4,12 @@ namespace Boyfoo\ElasticsearchSql;
 
 use Boyfoo\ElasticsearchSql\Grammars\AggsGrammar;
 use Boyfoo\ElasticsearchSql\Support\Row;
+use Boyfoo\ElasticsearchSql\Traits\DslParameter;
 
 class Aggs
 {
+    use DslParameter;
+
     protected $collect = [
         'type' => null,
         'field' => null,
@@ -50,11 +53,21 @@ class Aggs
     }
 
     /**
+     * @param null $name
+     * @param null $field
+     * @param null $size
      * @return $this
      */
-    public function terms()
+    public function terms($name = null, $field = null, $size = null)
     {
+        $this->buildParams(compact('name', 'field', 'size'));
+
         return $this->type('terms');
+    }
+
+    public function topHits()
+    {
+        return $this->type('top_hits');
     }
 
     /**
@@ -90,6 +103,15 @@ class Aggs
     public function getCollect()
     {
         return $this->collect;
+    }
+
+    protected function buildParams($params)
+    {
+        foreach ($params as $k => $v) {
+            if (!is_null($v)) {
+                $this->{$k}($v);
+            }
+        }
     }
 
     /**
