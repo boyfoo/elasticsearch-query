@@ -4,9 +4,7 @@ namespace Boyfoo\ElasticsearchSql\Grammars;
 
 use Boyfoo\ElasticsearchSql\Aggs;
 use Boyfoo\ElasticsearchSql\Support\Resolve;
-use Boyfoo\ElasticsearchSql\Support\Row;
 use Boyfoo\ElasticsearchSql\Support\Str;
-use Closure;
 
 class AggsGrammar
 {
