@@ -31,7 +31,7 @@ class SearchGrammarTest extends TestCase
     public function testQuery()
     {
         $query = Build::create()
-            ->term("type", 2)
+            ->mustTerm("type", 2)
             ->shouldRange("price", ['>=' => 10, "<" => 20]);
 
         $sql = Search::create()->query($query)->toArray();
@@ -45,7 +45,7 @@ class SearchGrammarTest extends TestCase
     {
         $sql = Search::create()
             ->query(function (Build $query) {
-                $query->term("type", 2);
+                $query->mustTerm("type", 2);
                 $query->shouldRange("price", ['>=' => 10, "<" => 20]);
             })
             ->toArray();
@@ -60,11 +60,11 @@ class SearchGrammarTest extends TestCase
         $sql = Search::create()
             ->index("test_index")
             ->query(function (Build $build) {
-                $build->term("type", 2);
+                $build->mustTerm("type", 2);
                 $build->notRange("price", ['>=' => 10, "<" => 20]);
-                $build->bool(function (Build $build) {
-                    $build->term("no", 1001)
-                        ->term("year", 2020);
+                $build->mustBool(function (Build $build) {
+                    $build->mustTerm("no", 1001)
+                        ->mustTerm("year", 2020);
                 });
             })
             ->toArray();

@@ -13,7 +13,7 @@ class QueryTest extends TestCase
         $key = 'price';
 
         $query = new Build();
-        $sql = $query->term($key, $value);
+        $sql = $query->mustTerm($key, $value);
 
         $count = $sql->getCount();
         $this->assertEquals(1, $count['term']);
@@ -69,9 +69,9 @@ class QueryTest extends TestCase
     public function testTerms()
     {
         $query = new Build();
-        $query->terms("price", 100);
-        $query->terms("price", [200, 300]);
-        $query->terms("no", 10010);
+        $query->mustTerms("price", 100);
+        $query->mustTerms("price", [200, 300]);
+        $query->mustTerms("no", 10010);
 
         $this->assertEquals(3, $query->getCount()['terms']);
 
@@ -171,7 +171,7 @@ class QueryTest extends TestCase
     public function testMatch()
     {
         $query = new Build();
-        $query->match("name", "你好");
+        $query->mustMatch("name", "你好");
 
         $this->assertEquals(1, $query->getCount()['match']);
 
@@ -208,7 +208,7 @@ class QueryTest extends TestCase
     public function testRange()
     {
         $query = new Build();
-        $query->range("price", ['>=' => 100, '<=' => 200]);
+        $query->mustRange("price", ['>=' => 100, '<=' => 200]);
         $this->assertEquals(1, $query->getCount()['range']);
 
         $term = $query->getWheres()[0];

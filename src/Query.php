@@ -4,6 +4,7 @@ namespace Boyfoo\ElasticsearchSql;
 
 use Boyfoo\ElasticsearchSql\Grammars\BoolGrammar;
 use Boyfoo\ElasticsearchSql\Traits\MustNotTrait;
+use Boyfoo\ElasticsearchSql\Traits\MustTrait;
 use Boyfoo\ElasticsearchSql\Traits\ShouldTrait;
 use Boyfoo\ElasticsearchSql\Support\Row;
 use Closure;
@@ -14,7 +15,7 @@ use Closure;
  */
 class Query
 {
-    use ShouldTrait, MustNotTrait;
+    use MustTrait, ShouldTrait, MustNotTrait;
 
     /**
      * 查看内容
@@ -54,7 +55,7 @@ class Query
      * @param string $boolean
      * @return $this
      */
-    public function match($column, $value = null, $operator = '=', $boolean = 'and')
+    protected function match($column, $value = null, $operator = '=', $boolean = 'and')
     {
         return $this->addWheres('match', ...func_get_args());
     }
@@ -67,7 +68,7 @@ class Query
      * @param string $boolean
      * @return $this
      */
-    public function term($column, $value = null, $operator = '=', $boolean = 'and')
+    protected function term($column, $value = null, $operator = '=', $boolean = 'and')
     {
         return $this->addWheres('term', ...func_get_args());
     }
@@ -80,7 +81,7 @@ class Query
      * @param string $boolean
      * @return $this
      */
-    public function terms($column, $value = [], $operator = '=', $boolean = 'and')
+    protected function terms($column, $value = [], $operator = '=', $boolean = 'and')
     {
         return $this->addWheres(
             'terms', $column, is_array($value) ? $value : [$value], $operator, $boolean
@@ -95,7 +96,7 @@ class Query
      * @param string $boolean
      * @return $this
      */
-    public function range($column, array $value = [], $operator = '=', $boolean = 'and')
+    protected function range($column, array $value = [], $operator = '=', $boolean = 'and')
     {
         foreach ($value as $k => $v) {
             if (isset($this->operators[$k])) {
@@ -114,7 +115,7 @@ class Query
      * @param string $boolean
      * @return $this
      */
-    public function bool($build, $operator = '=', $boolean = 'and')
+    protected function bool($build, $operator = '=', $boolean = 'and')
     {
         return $this->addWheres('bool', $build, null, $operator, $boolean);
     }

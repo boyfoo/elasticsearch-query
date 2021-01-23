@@ -2,9 +2,7 @@
 
 namespace Boyfoo\ElasticsearchSql\Tests;
 
-use Boyfoo\ElasticsearchSql\Aggs;
 use Boyfoo\ElasticsearchSql\Query;
-use Boyfoo\ElasticsearchSql\Search;
 use PHPUnit\Framework\TestCase;
 
 class SearchTest extends TestCase
@@ -12,24 +10,15 @@ class SearchTest extends TestCase
     public function testA()
     {
         $this->assertTrue(true);
-        $sql = Search::create()->index("test")
-            ->query(
-                function (Query $query) {
-                    $query->term('subject_id', "12");
-                    $query->match("full_text", "如果盈利");
-                }
-            )
-            ->aggs(
-                function (Aggs $aggs) {
-                    $aggs->size(5)
-                        ->terms()
-                        ->field("price")
-                        ->name("price_aggs");
-                }, function (Aggs $aggs) {
-                $aggs->size(5)->terms()->field("price")->name("price_aggs_test01");
-            })->toArray();
+        $res = Query::create()
+            ->mustMatch('$字段1', '$内容2')
+            ->notTerm('$字段1', '$内容2')
+            ->shouldRange('year', [
+                '>=' => 2018, '<=' => 2019
+            ])
+            ->toArray();
 
-//        dump($sql);
+//        dump($res);
 
         //        $query = new Build();
 //        $query->term('subject_id', "12");

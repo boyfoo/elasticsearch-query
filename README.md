@@ -26,7 +26,7 @@ $params = Search::create()
             ->source(['no', 'price', 'category'])
             ->size(10)
             ->query(function (Query $query) {
-                $query->match("小米手机")->term('category', '电子产品');
+                $query->mustMatch("小米手机")->mustTerm('category', '电子产品');
             });
 ```
 
@@ -77,7 +77,7 @@ $client->search($params);
 use Boyfoo\ElasticsearchSql\Query;
 
 $query = Query::create()
-            ->match('字段1', '内容1')
+            ->mustMatch('字段1', '内容1')
             ->notTerm('字段1', '内容2')
             ->shouldRange('字段3', [
                 '>=' => 2018, '<=' => 2019
@@ -125,7 +125,7 @@ $query = Query::create()
 use Boyfoo\ElasticsearchSql\Search;
 use Boyfoo\ElasticsearchSql\Query;
 
-$query = Query::create()->terms('key', 'value');
+$query = Query::create()->mustTerms('key', 'value');
 
 Search::create()->query($query);
 ```

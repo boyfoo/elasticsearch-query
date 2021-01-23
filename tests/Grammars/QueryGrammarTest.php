@@ -17,7 +17,7 @@ class QueryGrammarTest extends TestCase
 
         $query = new Build();
 
-        $query->term($key, $value);
+        $query->mustTerm($key, $value);
 
         $qg = new BoolGrammar($query);
 
@@ -50,10 +50,10 @@ class QueryGrammarTest extends TestCase
     {
         // must
         $query = Build::create();
-        $query->term("price", 100);
-        $query->bool(function (Build $build) {
-            $build->term('type', 1);
-            $build->term('year', 2020);
+        $query->mustTerm("price", 100);
+        $query->mustBool(function (Build $build) {
+            $build->mustTerm('type', 1);
+            $build->mustTerm('year', 2020);
         });
         $sql = $query->toArray();
         $str = '{"bool":{"must":[{"term":{"price":{"value":100}}},{"bool":{"must":[{"term":{"type":{"value":1}}},{"term":{"year":{"value":2020}}}]}}]}}';
@@ -61,10 +61,10 @@ class QueryGrammarTest extends TestCase
 
         // should
         $query = Build::create();
-        $query->term("price", 100);
+        $query->mustTerm("price", 100);
         $query->shouldBool(function (Build $build) {
-            $build->term('type', 1);
-            $build->term('year', 2020);
+            $build->mustTerm('type', 1);
+            $build->mustTerm('year', 2020);
         });
         $sql = $query->toArray();
         $str = '{"bool":{"must":[{"term":{"price":{"value":100}}}],"should":[{"bool":{"must":[{"term":{"type":{"value":1}}},{"term":{"year":{"value":2020}}}]}}]}}';
@@ -72,10 +72,10 @@ class QueryGrammarTest extends TestCase
 
         // not
         $query = Build::create();
-        $query->term("price", 100);
+        $query->mustTerm("price", 100);
         $query->notBool(function (Build $build) {
-            $build->term('type', 1);
-            $build->term('year', 2020);
+            $build->mustTerm('type', 1);
+            $build->mustTerm('year', 2020);
         });
         $sql = $query->toArray();
         $str = '{"bool":{"must":[{"term":{"price":{"value":100}}}],"must_not":[{"bool":{"must":[{"term":{"type":{"value":1}}},{"term":{"year":{"value":2020}}}]}}]}}';
@@ -86,7 +86,7 @@ class QueryGrammarTest extends TestCase
     {
         $q = Build::create();
 
-        $q->term(Es::row([
+        $q->mustTerm(Es::row([
             'price' => 100
         ]));
 
@@ -100,7 +100,7 @@ class QueryGrammarTest extends TestCase
 
 
         $q = Build::create();
-        $q->bool(Es::row([
+        $q->mustBool(Es::row([
             "must" => [
                 [
                     "term" => [
