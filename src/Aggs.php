@@ -101,6 +101,19 @@ class Aggs
     }
 
     /**
+     * 构建查询内query
+     * 传入Build实体或闭包或Expression表达式
+     * @param Query|Closure|Row $build
+     * @return $this
+     */
+    public function filter($build)
+    {
+        $this->collect['filter'] = $build;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function toArray()

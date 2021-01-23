@@ -42,9 +42,13 @@ class AggsGrammar
         $aggs['parameter'] = $this->aggsBuild->getParameter();
 
         $res = $this->{$method}($aggs);
-        if ($res && $this->hasChildAggs($aggs)) {
-            $res[$this->getName($aggs)]['aggs'] = $this->resolveChildAggs($aggs['aggs']);
+
+        if ($res) {
+            $this->hasChildAggs($aggs) && $res[$this->getName($aggs)]['aggs'] = $this->resolveChildAggs($aggs['aggs']);
+
+            !is_null($aggs['filter']) && $res[$this->getName($aggs)]['filter'] = Resolve::buildQuery($aggs['filter']);
         }
+
         return $res;
     }
 
@@ -111,17 +115,7 @@ class AggsGrammar
         $res = [];
 
         foreach ($aggs as $v) {
-
-            if ($v instanceof Closure) {
-                $v = Resolve::closureToAggs($v);
-            }
-
-            if ($v instanceof Aggs) {
-                $res += $v->toArray();
-            } elseif ($v instanceof Row) {
-                $res += $v->getValue();
-            }
-
+            $res += Resolve::buildAggs($v);
         }
 
         return $res;

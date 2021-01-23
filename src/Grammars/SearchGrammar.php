@@ -2,12 +2,8 @@
 
 namespace Boyfoo\ElasticsearchSql\Grammars;
 
-use Boyfoo\ElasticsearchSql\Aggs;
-use Boyfoo\ElasticsearchSql\Query;
 use Boyfoo\ElasticsearchSql\Search;
 use Boyfoo\ElasticsearchSql\Support\Resolve;
-use Boyfoo\ElasticsearchSql\Support\Row;
-use Closure;
 
 /**
  * 查询主体解析器
@@ -32,7 +28,7 @@ class SearchGrammar
 
         $build = $this->searchBuild->getQuery();
         if (!is_null($build)) {
-            $body['query'] = $this->buildQuery($build);
+            $body['query'] = Resolve::buildQuery($build);
         }
 
         $build = $this->searchBuild->getAggs();
@@ -48,25 +44,6 @@ class SearchGrammar
     }
 
     /**
-     * @param $build
-     * @return array
-     */
-    protected function buildQuery($build)
-    {
-        $res = [];
-        if ($build instanceof Closure) {
-            $build = Resolve::closureToQuery($build);
-        }
-        if ($build instanceof Row) {
-            $res = $build->getValue();
-        } elseif ($build instanceof Query) {
-            $res = $build->toArray();
-        }
-
-        return $res;
-    }
-
-    /**
      * @param $builds
      * @return array
      */
@@ -75,14 +52,7 @@ class SearchGrammar
         $res = [];
 
         foreach ($builds as $build) {
-            if ($build instanceof Closure) {
-                $build = Resolve::closureToAggs($build);
-            }
-            if ($build instanceof Row) {
-                $res += $build->getValue();
-            } elseif ($build instanceof Aggs) {
-                $res += $build->toArray();
-            }
+            $res += Resolve::buildAggs($build);
         }
 
         return $res;
